@@ -20,22 +20,23 @@
                 @endif
                 <h3 class="text-center text-primary">Nouveau produit </h3>
                
-                <form action="{{ route('produits.store') }}" method="post" enctype="multipart/form-data">
+                <form action="{{ route('produits.update',['id'=>$produit->id]) }}" method="post" enctype="multipart/form-data">
                     @csrf
+                    @method('put')
                     <div class="mb-3">
                         <label for="libelle" class="form-label">Libelle : </label>
-                        <input required type="text" class="form-control" id="libelle" name="libelle">
+                        <input required type="text" value="{{$produit->libelle}}" class="form-control" id="libelle" name="libelle">
                     </div>
                     <div class="mb-3">
                         <label for="prix" class="form-label">Prix : </label>
-                        <input required type="number" min="0" class="form-control" id="prix" name="prix">
+                        <input required type="number" value="{{$produit->prix}}" min="0" class="form-control" id="prix" name="prix">
                     </div>
                     <div class="mb-3">
                         <label for="prix" class="form-label">quantite : </label>
-                        <input required type="number" min="1" class="form-control" id="quantite" name="quantite">
+                        <input required type="number" value="{{$produit->quantite}}"  min="1" class="form-control" id="quantite" name="quantite">
                     </div>
                     <div class="mb-3">
-                        <textarea name="description" id="description" class="form-control"></textarea>
+                        <textarea name="description" id="description" class="form-control">{{$produit->description}}</textarea>
                     </div>
                     
                     <div class="mb-3">
@@ -51,7 +52,6 @@
                             @endforeach
                           </select>
                     </div>
-
                     <div class="mb-3">
                         <button class="btn btn-sm btn-primary">Ajouter</button>
                     </div>

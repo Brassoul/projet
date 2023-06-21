@@ -2,13 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\produits;
 use App\Models\cathegorie;
-use App\Models\commentaire;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
-class ProduitController extends Controller
+class Controllercathegorie extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,8 +13,8 @@ class ProduitController extends Controller
     public function index()
     {
         //
-        $produits = produits::all();
-        return view('produits.index',compact('produits'));
+        $cathegorie = cathegorie::all();
+        return view('cathegorie.index',compact('cathegorie'));
     }
 
     /**
@@ -26,7 +23,7 @@ class ProduitController extends Controller
     
         public function create() {
             $cathegorie=cathegorie::all();
-            return view('produits.create',compact('cathegorie'));
+            return view('cathegorie.create',compact('cathegorie'));
         } //
     
 
@@ -47,12 +44,12 @@ class ProduitController extends Controller
 
         // $s = storage_path('app');
         $data = $request->all();
-        $file = $request->chemin;
-        $path = $file -> store("images", "public");
-        $data["chemin"] = $path;
+        // $file = $request->chemin;
+        // $path = $file -> store("images", "public");
+        // $data["chemin"] = $path;
         // dd($data);
-        produits::create($data);
-        return   redirect()->route('produits.index')->with("addSuccess", "Le Produit a ete ajoute avec succes");
+        cathegorie::create($data);
+        return   redirect()->route('cathegorie.index')->with("addSuccess", "Le Produit a ete ajoute avec succes");
         // $t=new Document(["document"=> "$request->document","niveau"=>$request->niveau]);
         //$t=new Document()
         //        $t->document = $request->document;
@@ -67,9 +64,8 @@ class ProduitController extends Controller
      */
     public function show(string $id)
     {
-        // $commentaire = commentaire::all();
-        $produit=produits::find($id);
-        return view('produits.show',compact('produit'));
+        $cathegorie=cathegorie::find($id);
+        return view('cathegorie.show',compact('cathegorie'));
 
     }
 
@@ -78,9 +74,8 @@ class ProduitController extends Controller
      */
     public function edit(string $id)
     {
-        $cathegorie=cathegorie::all();
-        $produit=produits::find($id);
-        return view('produits.edit',compact('produit','cathegorie'));
+        $cathegorie=cathegorie::find($id);
+        return view('cathegorie.edit',compact('cathegorie'));
     }
 
     /**
@@ -88,16 +83,10 @@ class ProduitController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $produits = produits::find($id);
+        $cathegorie=cathegorie::find($id);
         $data = $request->all();
-        if($request->hasFile("chemin")){
-        Storage::delete("/storage/$produits->chemin");
-        $file = $request->chemin;
-        $path = $file -> store("images", "public");
-        $data["chemin"] = $path;
-        }
-        $produits->update($data);
-        return   redirect()->route('produits.index')->with("addSuccess", "Le Produit a ete ajoute avec succes");
+        $cathegorie->update($data);
+        return   redirect()->route('cathegorie.index')->with("addSuccess", "Le Produit a ete ajoute avec succes");
     }
 
     /**
@@ -105,8 +94,8 @@ class ProduitController extends Controller
      */
     public function delete(string $id)
     {
-        $produit=produits::find($id);
+        $produit=cathegorie::find($id);
         $produit->delete();
-        return   redirect()->route('produits.index')->with("addSuccess", "Le Produit a ete supprimer ");
+        return   redirect()->route('cathegorie.index')->with("addSuccess", "Le Produit a ete supprimer ");
     }
 }
