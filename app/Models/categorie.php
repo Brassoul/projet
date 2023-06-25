@@ -6,10 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class cathegorie extends Model
+class categorie extends Model
 {
     use HasFactory;
-    protected $fillable= ['CATHEGORIE'];
+    protected $fillable= ['categorie'];
 
     /**
      * Get all of the comments for the cathegorie
@@ -18,6 +18,6 @@ class cathegorie extends Model
      */
     public function produits(): HasMany
     {
-        return $this->hasMany(produits::class, 'cathegorie_id');
+        return $this->hasMany(produits::class, 'categorie_id');
     }
 }

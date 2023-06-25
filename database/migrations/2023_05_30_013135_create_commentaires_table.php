@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('mail');
             $table->text('commentaire');
             $table->foreignId('produits_id')->constrained();
+            $table->foreignId('users_id')->constrained();
             $table->timestamps();
         });
     }

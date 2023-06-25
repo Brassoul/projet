@@ -1,8 +1,9 @@
 <?php
 
 use App\Http\Controllers\commentaireController;
-use App\Http\Controllers\Controllercathegorie;
+use App\Http\Controllers\Controllercategorie;
 use App\Http\Controllers\ProduitController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,8 +17,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/',[ ProduitController::class,'index'])->name('produits.index');
+
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 Route::get('/test', function () {
     return view('layout/layout');
@@ -36,18 +46,18 @@ Route::get('produits/edit/{id}',[ ProduitController::class,'edit'])->name('produ
 Route::put('produits/update/{id}',[ ProduitController::class,'update'])->name('produits.update');
 Route::delete('produits/delete/{id}',[ ProduitController::class,'delete'])->name('produits.delete');
 
-Route::get('cathegorie',[ Controllercathegorie::class,'index'])->name('cathegorie.index');
-Route::get('cathegorie/create',[ Controllercathegorie::class,'create'])->name('cathegorie.create');
-Route::post('cathegorie/store',[ Controllercathegorie::class,'store'])->name('cathegorie.store');
-Route::get('cathegorie/show/{id}',[ Controllercathegorie::class,'show'])->name('cathegorie.show');
-Route::get('cathegorie/edit/{id}',[ Controllercathegorie::class,'edit'])->name('cathegorie.edit');
-Route::put('cathegorie/update/{id}',[ Controllercathegorie::class,'update'])->name('cathegorie.update');
-Route::delete('cathegorie/delete/{id}',[ Controllercathegorie::class,'delete'])->name('cathegorie.delete');
+Route::get('categorie',[ Controllercategorie::class,'index'])->name('categorie.index');
+Route::get('categorie/create',[ Controllercategorie::class,'create'])->name('categorie.create');
+Route::post('categorie/store',[ Controllercategorie::class,'store'])->name('categorie.store');
+Route::get('categorie/show/{id}',[ Controllercategorie::class,'show'])->name('categorie.show');
+Route::get('categorie/edit/{id}',[ Controllercategorie::class,'edit'])->name('categorie.edit');
+Route::put('categorie/update/{id}',[ Controllercategorie::class,'update'])->name('categorie.update');
+Route::delete('categorie/delete/{id}',[ Controllercategorie::class,'delete'])->name('categorie.delete');
 
-Route::get('commentaire',[ commentaireController::class,'index'])->name('commentaire.index');
-Route::get('commentaire/create',[ commentaireController::class,'create'])->name('commentaire.create');
-Route::post('commentaire/store',[ commentaireController::class,'store'])->name('commentaire.store');
+
 Route::get('commentaire/show/{id}',[ commentaireController::class,'show'])->name('commentaire.show');
 Route::get('commentaire/edit/{id}',[ commentaireController::class,'edit'])->name('commentaire.edit');
 Route::put('commentaire/update/{id}',[ commentaireController::class,'update'])->name('commentaire.update');
 Route::delete('commentaire/delete/{id}',[ commentaireController::class,'delete'])->name('commentaire.delete');
+
+require __DIR__.'/auth.php';

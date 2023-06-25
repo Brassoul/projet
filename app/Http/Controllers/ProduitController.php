@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\categorie;
 use App\Models\produits;
 use App\Models\cathegorie;
 use App\Models\commentaire;
@@ -25,8 +26,8 @@ class ProduitController extends Controller
      */
     
         public function create() {
-            $cathegorie=cathegorie::all();
-            return view('produits.create',compact('cathegorie'));
+            $categorie=categorie::all();
+            return view('produits.create',compact('categorie'));
         } //
     
 
@@ -35,31 +36,13 @@ class ProduitController extends Controller
      */
     public function store(Request $request)
     {
-
-        /*$request->validate([
-            'libelle' => 'required|max:60',
-            'prix' => 'required|max:60',
-            'quantite' => 'required|max:60',
-            'description' => 'required|min:5|max:200',
-            'chemin' => 'required|max:60',
-        ]);*/
-
-
-        // $s = storage_path('app');
         $data = $request->all();
         $file = $request->chemin;
         $path = $file -> store("images", "public");
         $data["chemin"] = $path;
-        // dd($data);
         produits::create($data);
         return   redirect()->route('produits.index')->with("addSuccess", "Le Produit a ete ajoute avec succes");
-        // $t=new Document(["document"=> "$request->document","niveau"=>$request->niveau]);
-        //$t=new Document()
-        //        $t->document = $request->document;
-        // ..
-        // $t->niveau = $request->niveau;
-        // $t->save();
-
+    
     }
 
     /**
@@ -78,9 +61,9 @@ class ProduitController extends Controller
      */
     public function edit(string $id)
     {
-        $cathegorie=cathegorie::all();
+        $categorie=categorie::all();
         $produit=produits::find($id);
-        return view('produits.edit',compact('produit','cathegorie'));
+        return view('produits.edit',compact('produit','categorie'));
     }
 
     /**
@@ -97,7 +80,7 @@ class ProduitController extends Controller
         $data["chemin"] = $path;
         }
         $produits->update($data);
-        return   redirect()->route('produits.index')->with("addSuccess", "Le Produit a ete ajoute avec succes");
+        return   redirect()->route('produits.index')->with("editSuccess", "Le Produit a été Modifié avec succes");
     }
 
     /**

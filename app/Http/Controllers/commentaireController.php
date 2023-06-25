@@ -11,23 +11,28 @@ class commentaireController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index($id)
     {
         //
+        $produit = produits::all();
         $commentaire = commentaire::all();
-        // return view('produits.show',compact('commentaire'));
+        $productSelect = produits::find($id);
+        $commentaires = commentaire::orderBy('created_at', 'desc')->paginate(6);
+        return view('commentaire.index', compact('commentaires', 'commentaire', 'produit', "productSelect"));
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    
-        public function create() {
-            $produit=produits::all();
-            $commentaire=commentaire::all();
-            return view('commentaire.create',compact('commentaire','produit'));
-        } //
-    
+
+    public function create(string $id)
+    {
+        $produit = produits::all();
+        $commentaire = commentaire::all();
+        $productSelect = produits::find($id);
+        return view('commentaire.create', compact('commentaire', 'produit', "productSelect"));
+    } //
+
 
     /**
      * Store a newly created resource in storage.
@@ -35,29 +40,17 @@ class commentaireController extends Controller
     public function store(Request $request)
     {
 
-        /*$request->validate([
-            'libelle' => 'required|max:60',
-            'prix' => 'required|max:60',
-            'quantite' => 'required|max:60',
-            'description' => 'required|min:5|max:200',
-            'chemin' => 'required|max:60',
-        ]);*/
+        $request->validate([
+            'mail' => 'required|max:250',
+            'commentaire' => 'required|min:10',
+            'produits_id' => 'required',
+            'users_id' => 'required',
+        ]);
 
-
-        // $s = storage_path('app');
         $data = $request->all();
-        // $file = $request->chemin;
-        // $path = $file -> store("images", "public");
-        // $data["chemin"] = $path;
-        // dd($data);
         commentaire::create($data);
-        return   redirect()->route('commentaire.index')->with("addSuccess", "Le Produit a ete ajoute avec succes");
-        // $t=new Document(["document"=> "$request->document","niveau"=>$request->niveau]);
-        //$t=new Document()
-        //        $t->document = $request->document;
-        // ..
-        // $t->niveau = $request->niveau;
-        // $t->save();
+        // $id = $data['id'];
+        return   redirect()->back()->with("addSuccess", "Votre commentaire a été ajouté avec succès");
 
     }
 
@@ -66,9 +59,8 @@ class commentaireController extends Controller
      */
     public function show(string $id)
     {
-        $commentaire=commentaire::find($id);
-        return view('commentaire.show',compact('commentaire'));
-
+        $commentaire = commentaire::find($id);
+        return view('commentaire.show', compact('commentaire'));
     }
 
     /**
@@ -76,9 +68,9 @@ class commentaireController extends Controller
      */
     public function edit(string $id)
     {
-        $produit=produits::all();
-        $commentaire=commentaire::find($id);
-        return view('commentaire.edit',compact('commentaire','produit'));
+        $produit = produits::all();
+        $commentaire = commentaire::find($id);
+        return view('commentaire.edit', compact('commentaire', 'produit'));
     }
 
     /**
@@ -86,7 +78,7 @@ class commentaireController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $commentaire=commentaire::find($id);
+        $commentaire = commentaire::find($id);
         $data = $request->all();
         $commentaire->update($data);
         return   redirect()->route('commentaire.index')->with("addSuccess", "Le Produit a ete ajoute avec succes");
@@ -97,7 +89,7 @@ class commentaireController extends Controller
      */
     public function delete(string $id)
     {
-        $commentaire=commentaire::find($id);
+        $commentaire = commentaire::find($id);
         $commentaire->delete();
         return   redirect()->route('commentaire.index')->with("addSuccess", "Le Produit a ete supprimer ");
     }

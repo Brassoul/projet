@@ -10,15 +10,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class produits extends Model
 {
     use HasFactory;
-    protected $fillable= ['libelle','prix','quantite','description','chemin','cathegorie_id'];
+    protected $fillable= ['libelle','prix','quantite','description','chemin','categorie_id'];
     /**
      * Get the cathegorie that owns the produits
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function cathegorie(): BelongsTo
+    public function categorie(): BelongsTo
     {
-        return $this->belongsTo(cathegorie::class, 'cathegorie_id');
+        return $this->belongsTo(categorie::class, 'categorie_id');
     }
 
     /**

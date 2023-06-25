@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('quantite');
             $table->text('description');
             $table->string('chemin');
-            $table->foreignId('cathegorie_id')->constrained();
+            $table->foreignId('categorie_id')->constrained();
             $table->timestamps();
         });
     }
