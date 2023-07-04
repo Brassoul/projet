@@ -40,10 +40,10 @@
                                 @foreach ($produits as $produit)
                                     <div class="col-sm-3 my-2 shadow-lg">
                                         <div class="thumb-wrapper">
-                                            <span class="wish-icon mt mb-2 btn btn-dark text-light"><i
-                                                    class="bi bi-megaphone-fill"></i></span>
-                                            <span class="wish-icon mb-2 btn btn-warning text-light"><i
-                                                    class="bi bi-eye-fill"></i></span>
+                                            <a href='{{ route('commentaire.index', ['id'=>$produit->id]) }}' class="wish-icon mt mb-2 btn btn-dark text-light"><i
+                                                    class="bi bi-megaphone-fill"></i></a>
+                                            <a href='{{ route('produits.show', ['id'=>$produit->id]) }}' class="wish-icon mb-2 btn btn-warning text-light"><i
+                                                    class="bi bi-eye-fill"></i></a>
                                             <div class="img-box">
                                                 <img src="{{ asset("/storage/$produit->chemin") }}"
                                                     class="img-fluid rounded" alt="" />

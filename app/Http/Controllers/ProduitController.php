@@ -96,6 +96,7 @@ class ProduitController extends Controller
     public function userViews()
     {
         $produits = produits::paginate(8);
+        $comments = commentaire::all();
         $qrcode = [];
         foreach ($produits as  $produit) {
             $url = route('produits.show', ['id' => $produit->id]);
@@ -105,6 +106,6 @@ class ProduitController extends Controller
                 ->size(40)
                 ->generate($url);
         }
-        return view('produits.produits', compact('produits', 'qrcode'));
+        return view('produits.produits', compact('produits', 'qrcode','comments'));
     }
 }
