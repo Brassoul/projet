@@ -32,15 +32,26 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:' . User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
+        $usersCount = User::count();
+
+        // Vérifier si aucun utilisateur n'est enregistré
+        if ($usersCount === 0) {
+            // Premier utilisateur enregistré est un administrateur
+            $is_admin = true;
+        } else {
+            $is_admin = false;
+        }
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
+            'is_admin' => $is_admin,
             'password' => Hash::make($request->password),
         ]);
+        dd($user);
 
         event(new Registered($user));
 
