@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/',[ ProduitController::class,'index'])->name('produits.index');
+Route::get('/',[ ProduitController::class,'userViews'])->name('produits.userViews');
 
 
 Route::get('/dashboard', function () {
@@ -38,7 +38,6 @@ Route::get('/test', function () {
 Route::get('/user', function () {
     return view('user');
 });
-Route::get('produits',[ ProduitController::class,'index'])->name('produits.index');
 Route::get('produits/create',[ ProduitController::class,'create'])->name('produits.create');
 Route::post('produits/store',[ ProduitController::class,'store'])->name('produits.store');
 Route::get('produits/show/{id}',[ ProduitController::class,'show'])->name('produits.show');

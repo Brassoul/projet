@@ -10,6 +10,7 @@ use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\commentaireController;
+use App\Http\Controllers\ProduitController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->group(function () {
@@ -37,10 +38,12 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
+    Route::get('produits', [ProduitController::class, 'index'])->name('produits.index');
+
     Route::get('commentaire/{id}', [commentaireController::class, 'index'])->name('commentaire.index');
     Route::get('commentaire/create/{id}', [commentaireController::class, 'create'])->name('commentaire.create');
     Route::post('commentaire/store', [commentaireController::class, 'store'])->name('commentaire.store');
-    
+
     Route::get('verify-email', EmailVerificationPromptController::class)
         ->name('verification.notice');
 
